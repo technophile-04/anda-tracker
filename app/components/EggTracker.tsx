@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState, useTransition } from "react";
 import { markEggAsEaten, refreshEggs } from "../actions";
 
 const GRID_SIZE = 30;
-const COLUMNS = 6;
 const COLOR_CLASSES = [
   "bg-amber-200",
   "bg-emerald-200",
@@ -37,6 +36,13 @@ const colorForName = (name: string | null) => {
     .split("")
     .reduce((sum, char) => sum + char.charCodeAt(0), 0);
   return COLOR_CLASSES[hash % COLOR_CLASSES.length];
+};
+
+const initialForName = (name: string | null) => {
+  if (!name) return "";
+  const trimmed = name.trim();
+  if (!trimmed) return "";
+  return trimmed[0]?.toUpperCase() ?? "";
 };
 
 type EggTrackerProps = {
@@ -145,7 +151,7 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
   };
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10">
+    <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-10">
       <header className="candy-card flex flex-col gap-6 p-6 md:p-8">
         <div className="confetti-banner flex flex-col gap-3 p-6">
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold uppercase tracking-wide text-rose-700/80">
@@ -242,30 +248,75 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
               Tap an egg to mark it eaten
             </span>
           </div>
-          <div
-            className="grid gap-2"
-            style={{ gridTemplateColumns: `repeat(${COLUMNS}, minmax(0, 1fr))` }}
-          >
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6">
             {eggs.map((egg) => {
               const isEaten = Boolean(egg.eaten_by);
               const isSaving = savingId === egg.id;
+              const initial = initialForName(egg.eaten_by);
               return (
                 <button
                   key={egg.id}
                   type="button"
                   onClick={() => handleMark(egg)}
                   disabled={isEaten || isSaving || isPending}
-                  data-eaten={isEaten}
-                  className={`egg-grid-tile flex h-16 flex-col items-center justify-center text-sm font-semibold transition ${
+                  data-eaten={isEaten ? "true" : "false"}
+                  aria-label={
                     isEaten
-                      ? `${colorForName(egg.eaten_by)} text-slate-800`
-                      : "text-slate-600 hover:scale-[1.02]"
-                  } ${isSaving ? "opacity-70" : ""}`}
+                      ? `Egg ${egg.position} eaten by ${egg.eaten_by ?? ""}`
+                      : `Egg ${egg.position} available`
+                  }
+                  className={`egg-grid-tile pop-on-hover flex flex-col items-center justify-center gap-2 p-2 text-sm font-semibold transition hover:scale-[1.02] ${
+                    isSaving ? "opacity-70" : ""
+                  }`}
                 >
-                  <span className="text-xs text-slate-500">#{egg.position}</span>
-                  <span className="text-sm">
-                    {isEaten ? egg.eaten_by : "Available"}
+                  <span className="text-[11px] font-bold text-slate-600">
+                    #{egg.position}
                   </span>
+
+                  <div
+                    className={`relative flex h-[68px] w-full max-w-[96px] items-center justify-center rounded-full border-2 ${
+                      isEaten
+                        ? "border-transparent"
+                        : "border-[rgba(59,29,79,0.22)] bg-white"
+                    } ${isEaten ? colorForName(egg.eaten_by) : ""}`}
+                  >
+                    <span className="pointer-events-none absolute left-3 top-3 h-6 w-6 rounded-full bg-white/45 blur-[0.5px]" />
+
+                    {isEaten ? (
+                      <svg
+                        viewBox="0 0 100 100"
+                        className="pointer-events-none absolute inset-0 h-full w-full opacity-45"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M18 62 L30 53 L39 61 L48 52 L58 62 L66 55 L74 62 L84 54"
+                          fill="none"
+                          stroke="rgba(59,29,79,0.75)"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M26 72 L35 65 L44 72 L53 65 L62 72 L71 65 L80 72"
+                          fill="none"
+                          stroke="rgba(59,29,79,0.55)"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    ) : null}
+
+                    {isEaten ? (
+                      <span className="relative z-10 text-2xl font-black text-[rgba(59,29,79,0.9)]">
+                        {initial}
+                      </span>
+                    ) : (
+                      <span className="relative z-10 text-xl opacity-35">
+                        🥚
+                      </span>
+                    )}
+                  </div>
                 </button>
               );
             })}
