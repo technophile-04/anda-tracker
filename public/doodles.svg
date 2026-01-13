@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="720" viewBox="0 0 720 720" fill="none">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="720" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4D8D"/>
+      <stop offset="1" stop-color="#22C55E"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="720" y1="0" x2="0" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- soft blobs -->
+  <path d="M120 110c40-40 120-40 160 0s40 120 0 160-120 40-160 0-40-120 0-160Z" fill="url(#g1)" opacity="0.10"/>
+  <path d="M520 80c50-30 120 0 140 60s-10 130-80 150-130-10-150-80 40-110 90-130Z" fill="url(#g2)" opacity="0.10"/>
+  <path d="M90 520c70-40 170-20 200 60s-30 160-120 170-170-40-170-130 40-80 90-100Z" fill="url(#g2)" opacity="0.10"/>
+
+  <!-- sparkles -->
+  <g opacity="0.35" stroke="#0F172A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M340 120l10 18 20 6-20 6-10 18-10-18-20-6 20-6 10-18Z" fill="#fff"/>
+    <path d="M610 320l8 14 16 5-16 5-8 14-8-14-16-5 16-5 8-14Z" fill="#fff"/>
+    <path d="M160 310l7 12 14 4-14 4-7 12-7-12-14-4 14-4 7-12Z" fill="#fff"/>
+  </g>
+
+  <!-- lil eggs -->
+  <g opacity="0.28">
+    <g transform="translate(520 520) rotate(-8)">
+      <path d="M55 10c22 0 40 22 40 50s-18 50-40 50S15 88 15 60 33 10 55 10Z" fill="#fff" stroke="#0F172A" stroke-width="3"/>
+      <path d="M35 60c0-10 9-18 20-18" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="45" cy="55" r="3.5" fill="#0F172A"/>
+      <circle cx="66" cy="55" r="3.5" fill="#0F172A"/>
+      <path d="M53 72c5 4 10 4 15 0" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(70 170) rotate(12)">
+      <path d="M55 10c22 0 40 22 40 50s-18 50-40 50S15 88 15 60 33 10 55 10Z" fill="#fff" stroke="#0F172A" stroke-width="3"/>
+      <path d="M38 71c6 6 28 6 34 0" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="45" cy="55" r="3.5" fill="#0F172A"/>
+      <circle cx="66" cy="55" r="3.5" fill="#0F172A"/>
+    </g>
+  </g>
+
+  <!-- squiggles -->
+  <g opacity="0.22" stroke="#0F172A" stroke-width="4" stroke-linecap="round">
+    <path d="M310 560c22-18 44 18 66 0s44 18 66 0" />
+    <path d="M420 420c18-12 36 12 54 0s36 12 54 0" />
+    <path d="M120 420c18-12 36 12 54 0s36 12 54 0" />
+  </g>
+</svg>

@@ -1,8 +1,8 @@
-import { EggTracker } from "./components/EggTracker";
-import { getInitialEggs } from "./actions";
+import { GroupLanding } from "./components/GroupLanding";
+import { isSupabaseConfigured } from "@/lib/supabase/server";
 
-export default async function HomePage() {
-  const { eggs, configured } = await getInitialEggs();
+export default function HomePage() {
+  const configured = isSupabaseConfigured();
 
-  return <EggTracker initialEggs={eggs} configured={configured} />;
+  return <GroupLanding configured={configured} />;
 }

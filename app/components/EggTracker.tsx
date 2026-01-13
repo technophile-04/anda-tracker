@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { markEggAsEaten, refreshEggs, seedEggs } from "../actions";
+import { useEffect, useMemo, useState, useTransition } from "react";
+import { markEggAsEaten, refreshEggs } from "../actions";
 
 const GRID_SIZE = 30;
 const COLUMNS = 6;
@@ -25,6 +24,13 @@ export type Egg = {
   eaten_at: string | null;
 };
 
+export type Group = {
+  id: string;
+  invite_code: string;
+  member_one_name: string;
+  member_two_name: string | null;
+};
+
 const colorForName = (name: string | null) => {
   if (!name) return "bg-white";
   const hash = name
@@ -36,19 +42,39 @@ const colorForName = (name: string | null) => {
 type EggTrackerProps = {
   initialEggs: Egg[];
   configured: boolean;
+  group: Group;
 };
 
-export function EggTracker({ initialEggs, configured }: EggTrackerProps) {
+export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) {
   const [eggs, setEggs] = useState<Egg[]>(initialEggs);
   const [name, setName] = useState("");
   const [isPending, startTransition] = useTransition();
   const [savingId, setSavingId] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [inviteUrl, setInviteUrl] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setInviteUrl(`${window.location.origin}/g/${group.invite_code}`);
+    }
+  }, [group.invite_code]);
+
+  const handleCopyInvite = async () => {
+    if (!inviteUrl) return;
+    try {
+      await navigator.clipboard.writeText(inviteUrl);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError("Unable to copy invite link.");
+    }
+  };
 
   const handleRefresh = () => {
     startTransition(async () => {
       setError("");
-      const result = await refreshEggs();
+      const result = await refreshEggs(group.id);
       if (result.error) {
         setError(result.error);
       } else if (result.eggs) {
@@ -75,6 +101,14 @@ export function EggTracker({ initialEggs, configured }: EggTrackerProps) {
     };
   }, [eggs]);
 
+  const members = useMemo(
+    () =>
+      [group.member_one_name, group.member_two_name].filter(
+        (member): member is string => Boolean(member)
+      ),
+    [group.member_one_name, group.member_two_name]
+  );
+
   const sortedEaten = useMemo(() => {
     return eggs
       .filter((egg) => egg.eaten_by)
@@ -98,7 +132,7 @@ export function EggTracker({ initialEggs, configured }: EggTrackerProps) {
     setError("");
 
     startTransition(async () => {
-      const result = await markEggAsEaten(egg.id, name.trim());
+      const result = await markEggAsEaten(egg.id, name.trim(), group.id);
 
       if (result.error) {
         setError(result.error);
@@ -155,6 +189,43 @@ export function EggTracker({ initialEggs, configured }: EggTrackerProps) {
             <div className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white">
               {stats.remaining} eggs left
             </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                Invite link
+              </p>
+              <p className="mt-1 text-sm text-slate-500">
+                Share this link with one friend to join.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center">
+              <input
+                readOnly
+                value={inviteUrl || group.invite_code}
+                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 focus:outline-none md:w-72"
+              />
+              <button
+                type="button"
+                onClick={handleCopyInvite}
+                disabled={!inviteUrl}
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              >
+                {copied ? "Copied" : "Copy"}
+              </button>
+            </div>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {members.map((member) => (
+              <span
+                key={member}
+                className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm"
+              >
+                {member}
+              </span>
+            ))}
           </div>
         </div>
         {error ? <p className="text-sm text-rose-600">{error}</p> : null}

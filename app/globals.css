@@ -1,5 +1,76 @@
 @import "tailwindcss";
 
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.04) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+:root {
+  --paper: #fffdf7;
+  --ink: #0f172a;
+  --sticker: #ffffff;
+  --sticker-border: rgba(15, 23, 42, 0.12);
+  --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+}
+
 body {
-  @apply bg-slate-50 text-slate-900;
+  font-family:
+    var(--font-fredoka),
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 700px at 12% -10%, #ffd6e8 0%, transparent 60%),
+    radial-gradient(900px 600px at 95% 0%, #c7f9ff 0%, transparent 55%),
+    radial-gradient(900px 600px at 50% 120%, #fff1b3 0%, transparent 55%),
+    var(--paper);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("/doodles.svg");
+  background-size: 720px 720px;
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+}
+
+.sticker {
+  background: var(--sticker);
+  border: 1px solid var(--sticker-border);
+  box-shadow: var(--shadow);
+}
+
+.floaty {
+  animation: floaty 3.6s ease-in-out infinite;
+}
+
+.pop-on-hover:hover {
+  animation: pop 320ms ease-out;
 }

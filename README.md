@@ -14,7 +14,7 @@ Create `.env.local` with your Supabase credentials:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=
 ```
 
 Start the dev server:
@@ -25,14 +25,24 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Supabase Table
+## Supabase Tables
 
-Create a table named `eggs` with these columns:
+Create tables named `groups` and `eggs` with these columns:
+
+### groups
 
 - `id` (uuid, primary key)
-- `crate_id` (text)
+- `invite_code` (text, unique)
+- `member_one_name` (text)
+- `member_two_name` (text, nullable)
+- `created_at` (timestamptz, default now())
+
+### eggs
+
+- `id` (uuid, primary key)
+- `crate_id` (text, references `groups.id`)
 - `position` (int)
 - `eaten_by` (text, nullable)
 - `eaten_at` (timestamptz, nullable)
 
-The app seeds 30 rows on first load for `crate_id = "default"`.
+The app seeds 30 rows for each new group.
