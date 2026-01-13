@@ -146,32 +146,33 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10">
-      <header className="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-            Shared crate
-          </p>
-          <h1 className="text-3xl font-semibold text-slate-900">
+      <header className="candy-card flex flex-col gap-6 p-6 md:p-8">
+        <div className="confetti-banner flex flex-col gap-3 p-6">
+          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold uppercase tracking-wide text-rose-700/80">
+            <span>Shared crate</span>
+            <span className="candy-pill px-3 py-1 text-xs">🥚 Cute cheeky egg</span>
+          </div>
+          <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl">
             Egg Crate Tracker
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
-            Track which egg was eaten and by whom.
+          <p className="text-sm text-slate-700">
+            Track which egg was eaten and by whom. Winky egg says: play fair.
           </p>
         </div>
         {!configured ? (
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          <div className="candy-panel p-3 text-sm text-amber-900">
             Add `NEXT_PUBLIC_SUPABASE_URL` and
             `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY` to `.env.local` to
             enable sync.
           </div>
         ) : null}
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex w-full max-w-md flex-col gap-2">
-            <label className="text-sm font-medium text-slate-600">
+            <label className="text-sm font-medium text-slate-700">
               Your name
             </label>
             <input
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
+              className="candy-input w-full px-3 py-2 text-sm"
               placeholder="e.g. Shiv"
               value={name}
               onChange={(event) => setName(event.target.value)}
@@ -182,22 +183,22 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
               type="button"
               onClick={handleRefresh}
               disabled={isPending}
-              className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-slate-300 disabled:opacity-50"
+              className="candy-button-outline px-4 py-2 text-sm disabled:opacity-50"
             >
               {isPending ? "Refreshing..." : "Refresh"}
             </button>
-            <div className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white">
-              {stats.remaining} eggs left
+            <div className="candy-button px-4 py-2 text-sm">
+              {stats.remaining} eggs left 🥚
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+        <div className="candy-panel p-4 text-sm text-slate-700">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+              <p className="text-xs font-semibold uppercase tracking-wide text-rose-700/70">
                 Invite link
               </p>
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-slate-600">
                 Share this link with one friend to join.
               </p>
             </div>
@@ -205,13 +206,13 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
               <input
                 readOnly
                 value={inviteUrl || group.invite_code}
-                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600 focus:outline-none md:w-72"
+                className="candy-input w-full bg-white px-3 py-2 text-sm text-slate-600 md:w-72"
               />
               <button
                 type="button"
                 onClick={handleCopyInvite}
                 disabled={!inviteUrl}
-                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                className="candy-button px-4 py-2 text-sm disabled:opacity-50"
               >
                 {copied ? "Copied" : "Copy"}
               </button>
@@ -221,7 +222,7 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
             {members.map((member) => (
               <span
                 key={member}
-                className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm"
+                className="candy-pill px-3 py-1 text-xs"
               >
                 {member}
               </span>
@@ -232,12 +233,12 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
       </header>
 
       <section className="grid gap-6 lg:grid-cols-[2fr,1fr]">
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
-          <div className="mb-4 flex items-center justify-between">
+        <div className="candy-card p-6">
+          <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <h2 className="text-lg font-semibold text-slate-800">
               Crate layout (6 x 5)
             </h2>
-            <span className="text-sm text-slate-500">
+            <span className="text-sm text-slate-600">
               Tap an egg to mark it eaten
             </span>
           </div>
@@ -254,13 +255,14 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
                   type="button"
                   onClick={() => handleMark(egg)}
                   disabled={isEaten || isSaving || isPending}
-                  className={`flex h-16 flex-col items-center justify-center rounded-xl border text-sm font-semibold shadow-sm transition ${
+                  data-eaten={isEaten}
+                  className={`egg-grid-tile flex h-16 flex-col items-center justify-center text-sm font-semibold transition ${
                     isEaten
-                      ? `${colorForName(egg.eaten_by)} border-transparent text-slate-800`
-                      : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                      ? `${colorForName(egg.eaten_by)} text-slate-800`
+                      : "text-slate-600 hover:scale-[1.02]"
                   } ${isSaving ? "opacity-70" : ""}`}
                 >
-                  <span className="text-xs text-slate-400">#{egg.position}</span>
+                  <span className="text-xs text-slate-500">#{egg.position}</span>
                   <span className="text-sm">
                     {isEaten ? egg.eaten_by : "Available"}
                   </span>
@@ -271,7 +273,7 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
         </div>
 
         <aside className="flex flex-col gap-6">
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="candy-card p-6">
             <h2 className="text-lg font-semibold text-slate-800">Stats</h2>
             <div className="mt-4 space-y-3">
               <div className="flex items-center justify-between text-sm text-slate-600">
@@ -298,7 +300,7 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
                   {Object.entries(stats.counts).map(([person, count]) => (
                     <li
                       key={person}
-                      className="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2 text-sm"
+                      className="flex items-center justify-between rounded-xl border-2 border-slate-100 bg-white px-3 py-2 text-sm shadow-sm"
                     >
                       <div className="flex items-center gap-2">
                         <span
@@ -320,17 +322,18 @@ export function EggTracker({ initialEggs, configured, group }: EggTrackerProps) 
             </div>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="candy-card p-6">
             <h2 className="text-lg font-semibold text-slate-800">Egg list</h2>
             {sortedEaten.length === 0 ? (
               <p className="mt-3 text-sm text-slate-500">No eggs eaten yet.</p>
             ) : (
               <ul className="mt-4 space-y-3 text-sm">
                 {sortedEaten.map((egg) => (
-                  <li
-                    key={egg.id}
-                    className="flex items-start justify-between gap-3 rounded-lg border border-slate-100 px-3 py-2"
-                  >
+                    <li
+                      key={egg.id}
+                      className="flex items-start justify-between gap-3 rounded-xl border-2 border-slate-100 bg-white px-3 py-2 shadow-sm"
+                    >
+
                     <div>
                       <p className="font-medium text-slate-700">
                         Egg #{egg.position}

@@ -28,6 +28,14 @@
   --sticker: #ffffff;
   --sticker-border: rgba(15, 23, 42, 0.12);
   --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  --candy-pink: #ff9ad5;
+  --candy-peach: #ffd6a5;
+  --candy-yellow: #ffe070;
+  --candy-mint: #b7f7e5;
+  --candy-blue: #a9d7ff;
+  --candy-lavender: #d2c7ff;
+  --candy-ink: #3b1d4f;
+  --candy-shadow: 0 14px 30px rgba(59, 29, 79, 0.16);
 }
 
 body {
@@ -73,4 +81,91 @@ body::before {
 
 .pop-on-hover:hover {
   animation: pop 320ms ease-out;
+}
+
+.candy-card {
+  background: #fffefc;
+  border-radius: 28px;
+  border: 2px solid rgba(59, 29, 79, 0.15);
+  box-shadow: var(--candy-shadow);
+}
+
+.candy-panel {
+  background: linear-gradient(135deg, #fff7fb, #fff3d1);
+  border-radius: 26px;
+  border: 2px dashed rgba(59, 29, 79, 0.18);
+  box-shadow: 0 12px 28px rgba(255, 154, 213, 0.25);
+}
+
+.candy-header {
+  background: linear-gradient(135deg, var(--candy-pink), var(--candy-yellow));
+  border-radius: 30px;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  color: var(--candy-ink);
+  box-shadow: 0 18px 30px rgba(255, 154, 213, 0.3);
+}
+
+.candy-input {
+  border-radius: 18px;
+  border: 2px solid rgba(59, 29, 79, 0.2);
+  background: #ffffff;
+  transition: border 120ms ease, box-shadow 120ms ease;
+}
+
+.candy-input:focus {
+  outline: none;
+  border-color: rgba(255, 154, 213, 0.9);
+  box-shadow: 0 0 0 4px rgba(255, 154, 213, 0.25);
+}
+
+.candy-button {
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff7fd1, #ffd05a);
+  color: #3a1f4f;
+  font-weight: 700;
+  box-shadow: 0 14px 20px rgba(255, 154, 213, 0.35);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.candy-button:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 18px 26px rgba(255, 154, 213, 0.4);
+}
+
+.candy-button-outline {
+  border-radius: 18px;
+  border: 2px solid rgba(59, 29, 79, 0.3);
+  background: #ffffff;
+  color: #3a1f4f;
+  font-weight: 700;
+}
+
+.candy-pill {
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid rgba(59, 29, 79, 0.12);
+  color: #3a1f4f;
+  font-weight: 600;
+}
+
+.egg-grid-tile {
+  border-radius: 20px;
+  border: 2px solid rgba(59, 29, 79, 0.18);
+  background: #ffffff;
+  box-shadow: 0 10px 18px rgba(169, 215, 255, 0.3);
+}
+
+.egg-grid-tile[data-eaten="true"] {
+  border-color: transparent;
+}
+
+.confetti-banner {
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.7), transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.6), transparent 60%),
+    linear-gradient(120deg, var(--candy-pink), var(--candy-blue), var(--candy-yellow));
+  border-radius: 30px;
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  color: var(--candy-ink);
+  box-shadow: 0 18px 30px rgba(169, 215, 255, 0.35);
 }
