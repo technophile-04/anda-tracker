@@ -2,11 +2,12 @@ import { EggTracker } from "@/app/components/EggTracker";
 import { getGroupByInviteCode } from "@/app/actions";
 
 type GroupPageProps = {
-  params: { code: string };
+  params: Promise<{ code: string }>;
 };
 
 export default async function GroupPage({ params }: GroupPageProps) {
-  const inviteCode = decodeURIComponent(params.code);
+  const { code } = await params;
+  const inviteCode = decodeURIComponent(code);
   const result = await getGroupByInviteCode(inviteCode);
 
   if (!result.configured) {
